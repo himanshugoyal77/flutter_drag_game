@@ -148,28 +148,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       );
                                     }, onWillAccept: (data) {
-                                      print(data);
                                       return true;
                                     }, onLeave: (data) {
-                                      print("onLeave");
                                       final player = AudioPlayer();
                                       player.play(AssetSource('defeat.mp3'));
                                     }, onAccept: (data) {
                                       final player = AudioPlayer();
 
                                       if (data ==
-                                          _animalNames[i][j]
-                                              .toString()
-                                              .toLowerCase()) {
+                                              _animalNames[i][j]
+                                                  .toString()
+                                                  .toLowerCase() &&
+                                          j == correctList.length) {
                                         player.play(AssetSource('jump.mp3'));
                                         setState(() {
                                           _selectFromLetters[i].removeWhere(
                                               (element) =>
                                                   element == data.toString());
                                         });
-
+                                        print("i: $i j: $j");
+                                        print(
+                                            "correctList.length: ${correctList.length} _animalNames[i].length: ${_animalNames[i].length} correctList: $correctList");
                                         if (i == _animals.length - 1 &&
-                                            j == _animalNames[i].length - 1) {
+                                            correctList.length ==
+                                                _animalNames[i].length - 1) {
                                           player.play(AssetSource('win.mp3'));
                                           showCupertinoDialog(
                                               context: context,
@@ -218,12 +220,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   milliseconds: 1000),
                                               curve: Curves.easeIn);
                                         }
-
-                                        setState(() {
-                                          // correctList = '';
-                                          correctList += data;
-                                        });
-                                        print("correctList: $correctList");
+                                        print("**********************");
+                                        print(
+                                            "correctList: ${correctList.length}");
+                                        print("correctList: ${correctList}");
+                                        print('j = $j');
+                                        //check if the word is correctif
+                                        if (j == correctList.length) {
+                                          setState(() {
+                                            // correctList = '';
+                                            correctList += data;
+                                          });
+                                        }
+                                        // setState(() {
+                                        //   // correctList = '';
+                                        //   correctList += data;
+                                        // });
                                       } else {
                                         //player.play(AssetSource('defeat.mp3'));
                                       }
